@@ -1,5 +1,4 @@
 name: Unit-Testasfdds
-
 on:
   pull_request:
     types:
@@ -9,7 +8,6 @@ on:
       - master
 
   push: null
-
 jobs:
   unit_tests:
     name: Unit tests
@@ -25,6 +23,7 @@ jobs:
         run: npm install
       - name: Unit tests
         run: npm run unitTest
+
   type_check:
     name: TypeScript static type check
     runs-on: ubuntu-latest
@@ -39,6 +38,7 @@ jobs:
         run: npm install
       - name: TypeScript static type check
         run: npm run staticTypeTest
+
   eslint:
     name: ESLint for TypeScript
     runs-on: ubuntu-latest
@@ -53,8 +53,9 @@ jobs:
         run: npm install
       - name: run ESLint
         run: npm run lint
+
   pull_action:
-    name: Action on PR
+    name: Building docker images
     runs-on: ubuntu-latest
     permissions:
       contents: read
