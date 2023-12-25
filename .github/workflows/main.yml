@@ -23,7 +23,7 @@ jobs:
           node-version: 21
       - name: npm install packages
         run: npm install
-      - name: TypeScript static type check
+      - name: Unit tests
         run: npm run unitTest
   type_check:
     name: TypeScript static type check
