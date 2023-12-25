@@ -1,5 +1,3 @@
-import Buffer from "buffer";
-
 type BufferLike =
     | string
     | Buffer

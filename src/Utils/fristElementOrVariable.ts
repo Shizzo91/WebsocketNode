@@ -1,4 +1,4 @@
-import * as _ from 'lodash'
+import * as _ from "lodash"
 
 /**
  * Returns the first element of an array if it is an array, otherwise it returns the element.
@@ -10,5 +10,5 @@ import * as _ from 'lodash'
  * fristElementOrVariable<number>(undefined) // undefined
  */
 export default function fristElementOrVariable<T>(variable: T | T[] | undefined): T | undefined  {
-        return _.isArray(variable) ? _.head(variable) as T : variable
+	return _.isArray(variable) ? _.head(variable) as T : variable
 }

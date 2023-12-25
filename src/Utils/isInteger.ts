@@ -10,5 +10,5 @@ import isNumeric from "./isNumeric"
  */
 //eslint-disable-next-line
 export default function isInteger(value: any): boolean {
-    return isNumeric(value) && value % 1 === 0
+	return isNumeric(value) && value % 1 === 0
 }

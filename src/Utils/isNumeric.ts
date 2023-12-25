@@ -12,7 +12,7 @@
  */
 //eslint-disable-next-line
 export default function isNumeric(value: any): boolean {
-    return typeof value === "number"
-            || (typeof value === "string"
-        && !Number.isNaN(parseInt(value, 10)))
+	return typeof value === "number"
+			|| (typeof value === "string"
+		&& !Number.isNaN(parseInt(value, 10)))
 }
