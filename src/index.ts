@@ -1,13 +1,13 @@
 import { WebSocketHandler } from "./Websocket/WebSocketHandler"
 import Client from "./Client/Client"
-import {RawData } from "ws"
+import { RawData } from "ws"
 import WebSocketServer from "./Websocket/WebSocketServer"
 import { IncomingMessage } from "node:http"
 import internal from "node:stream"
 import express, { Express } from "express"
 import * as http from "http"
 import { isInteger } from "./Utils"
-import {Logger} from "winston"
+import { Logger } from "winston"
 import getLogger from "./Logger/getLogger"
 
 
@@ -17,24 +17,24 @@ const logger: Logger = getLogger("main")
 
 class TestHandler implements WebSocketHandler {
 	public async onClose(client: Client, code: number, reason: Buffer): Promise<void> {
-		console.log({client, code, reason})
+		console.log({ client, code, reason })
 
 		return undefined
 	}
 
 	public async onConnect(client: Client): Promise<void> {
-		console.log({client})
+		console.log({ client })
 		client.send("hallo")
 		return undefined
 	}
 
 	public async onError(client: Client, err: Error): Promise<void> {
-		console.log({client, err})
+		console.log({ client, err })
 		return undefined
 	}
 
 	public async onMessage(client: Client, data: RawData, isBinary: boolean): Promise<void> {
-		console.log({client, data, isBinary})
+		console.log({ client, data, isBinary })
 		return undefined
 	}
 
@@ -54,6 +54,9 @@ server.on("upgrade", (request: IncomingMessage, socket: internal.Duplex, head: B
 })
 logger.info("added upgrade handler")
 
+const t: string[] = [ "halleo" ]
+const t1: string[] = []
+console.log({ t, t1 })
 server.listen(PORT, HOST, (): void => {
-	logger.info(`server is running on ${HOST}:${PORT}`)
+	logger.info(`server is running on ${ HOST }:${ PORT }`)
 })

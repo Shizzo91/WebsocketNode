@@ -6,7 +6,7 @@ export default class ConnectionTimer {
 		public readonly start: Date = new Date()
 	) {}
 
-	public getTimeRemaining(): number{
+	public getTimeRemaining(): number {
 		const now: Date = new Date()
 		return now.getTime() - this.start.getTime()
 	}

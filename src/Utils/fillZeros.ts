@@ -22,7 +22,7 @@ export default function fillZeros(numb: number, frontZeros: number, backZeros: n
 
 	const deltaZeros: number = frontZeros - numbString.length
 	const preZeros: string =  (deltaZeros > 0)
-		? Array.from({length: deltaZeros}, () :string => "0").join("")
+		? Array.from({ length: deltaZeros }, () :string => "0").join("")
 		: ""
 	return `${preZeros}${numb}`
 }

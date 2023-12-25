@@ -3,10 +3,10 @@ import { WebSocketHandler } from "./WebSocketHandler"
 import * as internal from "node:stream"
 import { IncomingMessage } from "node:http"
 import Client from "../Client/Client"
-import {Pubilsher, PublishData} from "../Client/Publish"
+import { Pubilsher, PublishData } from "../Client/Publish"
 import WebSocketServerHeartbeat from "./WebSocketServerHeartbeat"
 import getLogger from "../Logger/getLogger"
-import {Logger} from "winston"
+import { Logger } from "winston"
 
 export default class WebSocketServer extends WSS implements Pubilsher {
 	private heartbeat: WebSocketServerHeartbeat

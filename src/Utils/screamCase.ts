@@ -1,4 +1,4 @@
-import {snakeCase} from "lodash"
+import { snakeCase } from "lodash"
 
 export default function screamCase(str: string): string {
 	return snakeCase(str).toUpperCase()
