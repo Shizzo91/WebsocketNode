@@ -1,4 +1,4 @@
-name: Unit-Testasfdds
+name: Unit-Tests, Linter, Static Type Checking and Building Docker image
 on:
   pull_request:
     types:
