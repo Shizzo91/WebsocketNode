@@ -61,14 +61,12 @@ module.exports = {
 			"error",
 			"always"
 		],
-		"@typescript-eslint/explicit-function-return-type": [ "error" ],
+		"@typescript-eslint/explicit-function-return-type": [
+			"error"
+		],
 		"@typescript-eslint/typedef": [
-			"error",
-			{
-				"arrowParameter": true,
-				"variableDeclaration": true
-			}
-		]
+			"error"
+		],
 
 	}
 }
