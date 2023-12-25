@@ -1,0 +1,55 @@
+name: Unit-Testasfdds
+
+on: :
+  pull_request:
+    types:
+      - closed
+      - opened
+    branches:
+      - master
+
+  push: null
+
+  jobs:
+    unit_tests:
+      name: TypeScript static type check
+      runs-on: ubuntu-latest
+      steps:
+        - name: checkout
+          uses: actions/checkout@v4
+        - name: node setup
+          uses: actions/setup-node@v3
+          with:
+            node-version: 21
+        - name: npm install packages
+          run: npm install
+        - name: TypeScript static type check
+          run: npm run unitTest
+    type_check:
+      name: TypeScript static type check
+      runs-on: ubuntu-latest
+      steps:
+        - name: checkout
+          uses: actions/checkout@v4
+        - name: node setup
+          uses: actions/setup-node@v3
+          with:
+            node-version: 21
+        - name: npm install packages
+          run: npm install
+        - name: TypeScript static type check
+          run: npm run staticTypeTest
+    eslint:
+      name: ESLint for TypeScript
+      runs-on: ubuntu-latest
+      steps:
+        - name: checkout
+          uses: actions/checkout@v4
+        - name: node setup
+          uses: actions/setup-node@v3
+          with:
+            node-version: 21
+        - name: npm install packages
+          run: npm install
+        - name: run ESLint
+          run: npm run lint
