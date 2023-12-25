@@ -1,6 +1,6 @@
 name: Unit-Testasfdds
 
-on: :
+on:
   pull_request:
     types:
       - closed
