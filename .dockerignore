@@ -1,0 +1,10 @@
+src
+tests
+.github
+.idea
+.eslintrc.cjs
+.gitignore
+jest.config.js
+tsconfig.json
+Dockerfile
+readme.md
