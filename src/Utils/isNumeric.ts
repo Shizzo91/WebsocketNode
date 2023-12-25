@@ -10,6 +10,7 @@
  * isNumeric([]) // false
  * isNumeric({}) // false
  */
+//eslint-disable-next-line
 export default function isNumeric(value: any): boolean {
     return typeof value === "number"
             || (typeof value === "string"
