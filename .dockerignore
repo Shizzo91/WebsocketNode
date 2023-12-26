@@ -1,8 +1,10 @@
 src
 tests
 .github
+.git
 .idea
-.eslintrc.cjs
+.husky
+.eslintrc.js
 .gitignore
 jest.config.js
 tsconfig.json
