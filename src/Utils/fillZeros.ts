@@ -1,3 +1,5 @@
+import { padStart } from "lodash"
+
 /**
  *
  * @param numb
@@ -20,9 +22,5 @@ export default function fillZeros(numb: number, frontZeros: number, backZeros: n
 		return `${fillZeros(parseInt(numbSplitt[0], 10), frontZeros)}.${numbSplitt[1]}`
 	}
 
-	const deltaZeros: number = frontZeros - numbString.length
-	const preZeros: string =  (deltaZeros > 0)
-		? Array.from({ length: deltaZeros }, () :string => "0").join("")
-		: ""
-	return `${preZeros}${numb}`
+	return padStart(numbString, frontZeros, "0")
 }

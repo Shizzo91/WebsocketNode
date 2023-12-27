@@ -54,9 +54,6 @@ server.on("upgrade", (request: IncomingMessage, socket: internal.Duplex, head: B
 })
 logger.info("added upgrade handler")
 
-const t: string[] = [ "halleo" ]
-const t1: string[] = []
-console.log({ t, t1 })
 server.listen(PORT, HOST, (): void => {
 	logger.info(`server is running on ${ HOST }:${ PORT }`)
 })
