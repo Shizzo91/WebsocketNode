@@ -6,13 +6,10 @@ import { IncomingMessage } from "node:http"
 import internal from "node:stream"
 import express, { Express } from "express"
 import * as http from "http"
-import { isInteger } from "./Utils"
 import { Logger } from "winston"
 import getLogger from "./Logger/getLogger"
+import { HOST, PORT } from "./settings"
 
-
-const HOST: string = process.env.HOST ?? "0.0.0.0"
-const PORT: number = (isInteger(process.env.PORT)) ? parseInt(process.env.PORT ?? "9999", 10) : 9999
 const logger: Logger = getLogger("main")
 
 class TestHandler implements WebSocketHandler {

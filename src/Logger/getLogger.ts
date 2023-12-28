@@ -2,6 +2,7 @@ import winston, { Logger, format } from "winston"
 import { createLogger as createWinstonLogger } from "winston"
 import { padEnd, padStart } from "lodash"
 import { maxKeyLength, screamCase } from "../Utils"
+import { PROD } from "../settings"
 
 const LENGTH_OF_MAX_LEVEL: number = maxKeyLength(winston.config.syslog.levels)
 
@@ -41,7 +42,7 @@ function createLogger(name: string): Logger {
 		levels: winston.config.syslog.levels,
 		transports: [
 			new winston.transports.Console({
-				level: "debug",
+				level: (!PROD) ? "debug" : "info",
 				format: getFormat(true)
 			}),
 			new winston.transports.File( {
