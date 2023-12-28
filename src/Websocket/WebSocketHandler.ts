@@ -1,7 +1,17 @@
 import Client from "../Client/Client"
 import { RawData } from "ws"
+import { IncomingMessage } from "node:http"
+import internal from "node:stream"
 
 export type WebSocketHandler = {
+    /**
+     * The verification method for this websocket connection default will be true on any websocket connection
+     * @param request
+     * @param socket
+     * @param head
+     */
+    onVerify?(request: IncomingMessage, socket: internal.Duplex, head: Buffer): boolean
+
     /**
      * Handling the initial connection
      * @param client

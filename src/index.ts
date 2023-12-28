@@ -13,6 +13,9 @@ import { HOST, PORT } from "./settings"
 const logger: Logger = getLogger("main")
 
 class TestHandler implements WebSocketHandler {
+	// public onVerify(request: IncomingMessage, socket: internal.Duplex, head: Buffer): boolean {
+	// 	return false
+	// }
 	public async onClose(client: Client, code: number, reason: Buffer): Promise<void> {
 		console.log({ client, code, reason })
 

@@ -71,6 +71,13 @@ export default class WebSocketServer extends WSS implements Pubilsher {
 	 * @param head
 	 */
 	public upgrade(request: IncomingMessage, socket: internal.Duplex, head: Buffer): void {
+		// Client authentication for the http upgrade
+		if (typeof this.webSocketHandler.onVerify === "function" && !this.webSocketHandler.onVerify(request, socket, head)) {
+			socket.write("HTTP/1.1 401 Unauthorized\r\n\r\n")
+			socket.destroy()
+			return
+		}
+
 		this.handleUpgrade(request, socket, head, (webSocket: WebSocket) => {
 			const client: Client = new Client(request, socket, head, webSocket, this)
 			this.emit("connection", webSocket, client)
