@@ -1,6 +1,6 @@
-import Client from "./Client"
+import Connection from "./Connection"
 
-type PublishCallback = (client: Client) => void
+type PublishCallback = (client: Connection) => void
 
 type PublishData = string | PublishCallback
 

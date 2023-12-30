@@ -62,8 +62,8 @@ function createLogger(name: string): Logger {
 }
 
 
-
 export default function getLogger(name: string): Logger {
 	name = screamCase(name)
 	return loggerMap[name] ?? createLogger(name)
 }
+

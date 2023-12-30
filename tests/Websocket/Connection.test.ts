@@ -1,14 +1,14 @@
-import Client from "../../src/Client/Client";
+import Connection from "../../src/Connection/Connection";
 
 
-describe("client", () => {
+describe("connection", () => {
 
     describe("remoteAddress", () => {
         const ip: string = "123.123.123.132"
         it("over x-forwarded-for string", () => {
 
             // @ts-ignore
-            const client: Client = new Client(
+            const client: Connection = new Connection(
                 { headers: { "x-forwarded-for" :  ip} },
             )
 
@@ -20,7 +20,7 @@ describe("client", () => {
         it("over x-forwarded-for array", () => {
 
             // @ts-ignore
-            const client: Client = new Client(
+            const client: Connection = new Connection(
                 { headers: { "x-forwarded-for" :  [ip]} },
             )
 
@@ -32,7 +32,7 @@ describe("client", () => {
         it("over socket.remoteAddress", () => {
 
             // @ts-ignore
-            const client: Client = new Client(
+            const client: Connection = new Connection(
                 {
                     headers: {},
                     socket: { remoteAddress: ip }
@@ -50,7 +50,7 @@ describe("client", () => {
             const remoteAddress: string = "2.2.2.2"
 
             // @ts-ignore
-            const client: Client = new Client(
+            const client: Connection = new Connection(
                 {
                     headers: { "x-forwarded-for" :  [ip]} ,
                     socket: { remoteAddress }
@@ -69,7 +69,7 @@ describe("client", () => {
             const remoteAddress: string = "2.2.2.2"
 
             // @ts-ignore
-            const client: Client = new Client(
+            const client: Connection = new Connection(
                 {
                     headers: {} ,
                     socket: {}

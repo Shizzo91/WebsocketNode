@@ -2,11 +2,10 @@ import { WebSocketServer as WSS, WebSocket } from "ws"
 import { WebSocketHandler } from "./WebSocketHandler"
 import * as internal from "node:stream"
 import { IncomingMessage } from "node:http"
-import Client from "../Client/Client"
-import { Pubilsher, PublishData } from "../Client/Publish"
+import Connection from "../Connection/Connection"
+import { Pubilsher, PublishData } from "../Connection/Publish"
 import WebSocketServerHeartbeat from "./WebSocketServerHeartbeat"
-import getLogger from "../Logger/getLogger"
-import { Logger } from "winston"
+import { getLogger, Logger } from "../Logger"
 
 export default class WebSocketServer extends WSS implements Pubilsher {
 	private heartbeat: WebSocketServerHeartbeat
@@ -14,7 +13,7 @@ export default class WebSocketServer extends WSS implements Pubilsher {
 	constructor(
 		public webSocketHandler: WebSocketHandler,
 		private logger: Logger = getLogger("WebSocketServer"),
-		public connectedClients: Set<Client> = new Set<Client>(),
+		public connectedClients: Set<Connection> = new Set<Connection>(),
 	) {
 		super({ noServer: true })
 
@@ -24,7 +23,7 @@ export default class WebSocketServer extends WSS implements Pubilsher {
 		this.heartbeat = new WebSocketServerHeartbeat(this, heartbeatLogger)
 		this.heartbeat.start()
 
-		this.on("connection", async (webSocket: WebSocket, client: Client): Promise<void> => {
+		this.on("connection", async (webSocket: WebSocket, client: Connection): Promise<void> => {
 			this.connectedClients.add(client)
 			this.webSocketHandler.onConnect(client)
 
@@ -33,7 +32,7 @@ export default class WebSocketServer extends WSS implements Pubilsher {
 			webSocket.on("error", this.webSocketHandler.onError.bind(this.webSocketHandler, client))
 
 			webSocket.on("pong", (): void => {
-				heartbeatLogger.info(`receiving a pong from client: ${client.toString()}`)
+				heartbeatLogger.debug(`receiving a pong from client: ${client.toString()}`)
 				client.isAlive = true
 			})
 
@@ -51,8 +50,8 @@ export default class WebSocketServer extends WSS implements Pubilsher {
 	 * @param data
 	 */
 	public publish(topic: string, data: PublishData): void {
-		this.logger.info(`Publishing to topic "${topic}" with data:${(typeof data === "string") ? JSON.stringify(data) : "PublishCallback"}`)
-		let client: Client
+		this.logger.debug(`Publishing to topic "${topic}" with data:${(typeof data === "string") ? JSON.stringify(data) : "PublishCallback"}`)
+		let client: Connection
 		for (client of this.connectedClients) {
 			if (client.hasSubscribe(topic)) {
 				if (typeof data === "function") {
@@ -71,7 +70,7 @@ export default class WebSocketServer extends WSS implements Pubilsher {
 	 * @param head
 	 */
 	public upgrade(request: IncomingMessage, socket: internal.Duplex, head: Buffer): void {
-		// Client authentication for the http upgrade
+		// Connection authentication for the http upgrade
 		if (typeof this.webSocketHandler.onVerify === "function" && !this.webSocketHandler.onVerify(request, socket, head)) {
 			socket.write("HTTP/1.1 401 Unauthorized\r\n\r\n")
 			socket.destroy()
@@ -79,7 +78,7 @@ export default class WebSocketServer extends WSS implements Pubilsher {
 		}
 
 		this.handleUpgrade(request, socket, head, (webSocket: WebSocket) => {
-			const client: Client = new Client(request, socket, head, webSocket, this)
+			const client: Connection = new Connection(request, socket, head, webSocket, this)
 			this.emit("connection", webSocket, client)
 		})
 	}

@@ -1,5 +1,5 @@
 import WebSocketServer from "./WebSocketServer"
-import Client from "../Client/Client"
+import Connection from "../Connection/Connection"
 import { Logger } from "winston"
 
 export default class WebSocketServerHeartbeat {
@@ -13,17 +13,17 @@ export default class WebSocketServerHeartbeat {
 	}
 
 	public start(): void {
-		this.logger.info("Starting")
+		this.logger.debug("Starting")
 		this.timer = setInterval((): void => {
-			this.logger.info(`sending a alive notification to ${ this.webSocketServer.connectedClients.size } clients`)
-			this.webSocketServer.connectedClients.forEach((client: Client): void => {
+			this.logger.debug(`sending a alive notification to ${ this.webSocketServer.connectedClients.size } clients`)
+			this.webSocketServer.connectedClients.forEach((client: Connection): void => {
 				if (!client.isAlive) {
-					this.logger.info(`client is not alive and will be terminated client: ${ client.toString() }`)
+					this.logger.warn(`client is not alive and will be terminated client: ${ client.toString() }`)
 					client.webSocket.terminate()
 				}
 				client.isAlive = false
 				client.webSocket.ping()
-				this.logger.info(`sending ping to client: ${ client.toString() }`)
+				this.logger.debug(`sending ping to client: ${ client.toString() }`)
 			})
 		}, this.beatTime)
 	}

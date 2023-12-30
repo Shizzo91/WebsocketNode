@@ -1,4 +1,4 @@
-import Client from "../Client/Client"
+import Connection from "../Connection/Connection"
 import { RawData } from "ws"
 import { IncomingMessage } from "node:http"
 import internal from "node:stream"
@@ -14,30 +14,32 @@ export type WebSocketHandler = {
 
     /**
      * Handling the initial connection
-     * @param client
+     * @param connection
      */
-    onConnect(client: Client): void | Promise<void>,
+    onConnect(connection: Connection): void | Promise<void>,
 
     /**
      * Handling of the message event
-     * @param client
+     * @param connection
      * @param data
      * @param isBinary
      */
-    onMessage(client: Client, data: RawData, isBinary: boolean): void | Promise<void>,
+    onMessage(connection: Connection, data: RawData, isBinary: boolean): void | Promise<void>,
 
     /**
      * Handling of the closing event
-     * @param client
+     * @param connection
      * @param code
      * @param reason
      */
-    onClose(client: Client, code: number, reason: Buffer): void | Promise<void>,
+    onClose(connection: Connection, code: number, reason: Buffer): void | Promise<void>,
 
     /**
      * Handling of the error event
-     * @param client
+     * @param connection
      * @param err
      */
-    onError(client: Client, err: Error): void | Promise<void>
+    onError(connection: Connection, err: Error): void | Promise<void>
 }
+
+export default WebSocketHandler

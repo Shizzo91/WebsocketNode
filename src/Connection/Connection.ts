@@ -8,8 +8,9 @@ import Options from "./Options"
 import ErrorCallback from "./ErrorCallback"
 import { fristElementOrVariable } from "../Utils"
 import ConnectionTimer from "./ConnectionTimer"
+import * as url from "url"
 
-export default class Client implements PubSubscriber {
+export default class Connection implements PubSubscriber {
 
 	public isAlive: boolean = true
 	constructor(
@@ -40,8 +41,8 @@ export default class Client implements PubSubscriber {
 		throw new Error("no remoteAddress can be found")
 	}
 
-	public get url(): URL {
-		return new URL(this.request.url ?? "")
+	public get url(): url.UrlWithStringQuery {
+		return url.parse(this.request.url ?? "")
 	}
 
 	/**

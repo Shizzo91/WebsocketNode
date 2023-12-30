@@ -1,7 +1,7 @@
 import express, { Express, NextFunction, Request, Response } from "express"
-import getLogger from "../Logger/getLogger"
-import { Logger } from "winston"
+import { getLogger, Logger } from "../Logger"
 import api from "./api"
+
 const logger: Logger = getLogger("app")
 
 const app: Express = express()

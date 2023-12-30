@@ -55,28 +55,28 @@ logger.emerg("message")
 ## Example of WebSocket class
 ````typescript 
 import { WebSocketHandler } from "./Websocket/WebSocketHandler"
-import Client from "./Client/Client"
+import Connection from "./Connection/Connection"
 import { RawData } from "ws"
 
 export default class TestHandler implements WebSocketHandler {
-	public async onClose(client: Client, code: number, reason: Buffer): Promise<void> {
+	public async onClose(connection: Connection, code: number, reason: Buffer): Promise<void> {
 		console.log({ client, code, reason })
 
 		return undefined
 	}
 
-	public async onConnect(client: Client): Promise<void> {
+	public async onConnect(connection: Connection): Promise<void> {
 		console.log({ client })
 		client.send("hallo")
 		return undefined
 	}
 
-	public async onError(client: Client, err: Error): Promise<void> {
+	public async onError(connection: Connection, err: Error): Promise<void> {
 		console.log({ client, err })
 		return undefined
 	}
 
-	public async onMessage(client: Client, data: RawData, isBinary: boolean): Promise<void> {
+	public async onMessage(connection: Connection, data: RawData, isBinary: boolean): Promise<void> {
 		console.log({ client, data, isBinary })
 		return undefined
 	}
