@@ -1,8 +1,8 @@
-import ExampleHandler from "../../src/Websocket/ExampleHandler"
+import SimpleChatHandler from "../../src/Websocket/SimpleChatHandler"
 
 describe("ExampleHandler", () => {
 	describe("onConnect", () => {
-		const handler = new ExampleHandler()
+		const handler = new SimpleChatHandler()
 		it("should connect to handler", async () => {
 				const send = jest.fn((msg) => void 0)
 
