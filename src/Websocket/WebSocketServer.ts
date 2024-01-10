@@ -69,14 +69,22 @@ export default class WebSocketServer extends WSS implements Pubilsher {
 	 * @param socket
 	 * @param head
 	 */
-	public upgrade(request: IncomingMessage, socket: internal.Duplex, head: Buffer): void {
+	public async upgrade(request: IncomingMessage, socket: internal.Duplex, head: Buffer): Promise<void> {
 		// Connection authentication for the http upgrade
-		if (typeof this.webSocketHandler.onVerify === "function" && !this.webSocketHandler.onVerify(request, socket, head)) {
-			socket.write("HTTP/1.1 401 Unauthorized\r\n\r\n")
-			socket.destroy()
-			return
+		if (typeof this.webSocketHandler.onVerify === "function") {
+			// if the onVerify method is async, await it
+			const auth: boolean = await this.webSocketHandler.onVerify(request, socket, head)
+
+			// if the auth is false, close the connection
+			if (!auth) {
+				this.logger.warn(`Unauthorized connection from ${request.socket.remoteAddress}`)
+				socket.write("HTTP/1.1 401 Unauthorized\r\n\r\n")
+				socket.destroy()
+				return
+			}
 		}
 
+		// Upgrade the connection
 		this.handleUpgrade(request, socket, head, (webSocket: WebSocket) => {
 			const client: Connection = new Connection(request, socket, head, webSocket, this)
 			this.emit("connection", webSocket, client)

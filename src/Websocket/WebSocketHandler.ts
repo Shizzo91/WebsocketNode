@@ -10,7 +10,7 @@ export type WebSocketHandler = {
      * @param socket
      * @param head
      */
-    onVerify?(request: IncomingMessage, socket: internal.Duplex, head: Buffer): boolean
+    onVerify?(request: IncomingMessage, socket: internal.Duplex, head: Buffer): boolean | Promise<boolean>,
 
     /**
      * Handling the initial connection

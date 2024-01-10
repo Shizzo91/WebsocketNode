@@ -13,7 +13,7 @@ const exampleHandler: SimpleChatHandler = new SimpleChatHandler()
 const wss1: WebSocketServer = new WebSocketServer(exampleHandler, getLogger("WebSocketServer1"))
 logger.debug("initializing WebSocketServer1")
 
-server.on("upgrade", (request: IncomingMessage, socket: internal.Duplex, head: Buffer): void => {
+server.on("upgrade", async (request: IncomingMessage, socket: internal.Duplex, head: Buffer): Promise<void> => {
 	wss1.upgrade(request, socket, head)
 })
 logger.debug("added upgrade handler")
