@@ -4,6 +4,7 @@ tests
 .git
 .idea
 .husky
+.env
 .eslintrc.js
 .gitignore
 jest.config.js

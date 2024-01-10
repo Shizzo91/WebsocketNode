@@ -1,5 +1,6 @@
 import { get } from "lodash"
-
+import dotenv from "dotenv"
+dotenv.config({ path: `${process.cwd()}/.env` })
 function getString(key: string, defaultValue?: string): string {
 	const value: string | undefined = get(process.env, key, defaultValue)
 
