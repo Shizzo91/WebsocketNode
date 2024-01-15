@@ -1,10 +1,19 @@
 import { WebSocketHandler } from "./WebSocketHandler"
-import Connection from "../Connection/Connection"
 import { RawData } from "ws"
 import { IncomingMessage } from "node:http"
 import * as url from "url"
+import { URLSearchParams } from "node:url"
+import WebSocketServer from "./WebSocketServer"
+import { BufferLike, Connection } from "../Connection"
 
 export default class SimpleChatHandler implements WebSocketHandler {
+	/**
+	 * The parent websocket handler
+	 * @type {WebSocketServer | undefined}
+	 * @default undefined
+	 */
+	public parent: WebSocketServer | undefined  = undefined
+
 	public onVerify(request: IncomingMessage): boolean {
 		const urlObject: url.UrlWithStringQuery = url.parse(request.url ?? "")
 		const urlSearchParams: URLSearchParams = new URLSearchParams(urlObject.search?.toString())
@@ -38,6 +47,21 @@ export default class SimpleChatHandler implements WebSocketHandler {
 	public async onMessage(connection: Connection, data: RawData): Promise<void> {
 		connection.publish("all", `${this.getName(connection)}: ${data.toString()}`)
 		return undefined
+	}
+
+	public sendToAll(data: BufferLike): boolean {
+		if (!this.parent) {
+			return false
+		}
+		try {
+			let client: Connection
+			for (client of this.parent.connectedClients) {
+				client.send(data)
+			}
+			return true
+		} catch (e) {
+			return false
+		}
 	}
 
 }

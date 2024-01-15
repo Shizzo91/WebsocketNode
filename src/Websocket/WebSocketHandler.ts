@@ -2,8 +2,16 @@ import Connection from "../Connection/Connection"
 import { RawData } from "ws"
 import { IncomingMessage } from "node:http"
 import internal from "node:stream"
+import WebSocketServer from "./WebSocketServer"
 
 export type WebSocketHandler = {
+    /**
+     * The parent websocket handler
+     * @type {WebSocketServer | undefined}
+     * @default undefined
+     */
+    parent: WebSocketServer | undefined,
+
     /**
      * The verification method for this websocket connection default will be true on any websocket connection
      * @param request

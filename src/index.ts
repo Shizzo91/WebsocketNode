@@ -4,13 +4,11 @@ import { Logger, getLogger } from "./Logger/"
 import { HOST, PORT } from "./settings"
 import internal from "node:stream"
 import server from "./routes"
-import SimpleChatHandler from "./Websocket/SimpleChatHandler"
+import simpleChatHandler from "./simpleChatHandler"
 
 const logger: Logger = getLogger("main")
 
-const exampleHandler: SimpleChatHandler = new SimpleChatHandler()
-
-const wss1: WebSocketServer = new WebSocketServer(exampleHandler, getLogger("WebSocketServer1"))
+const wss1: WebSocketServer = new WebSocketServer(simpleChatHandler, getLogger("WebSocketServer1"))
 logger.debug("initializing WebSocketServer1")
 
 server.on("upgrade", async (request: IncomingMessage, socket: internal.Duplex, head: Buffer): Promise<void> => {

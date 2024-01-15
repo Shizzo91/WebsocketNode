@@ -1,16 +1,13 @@
-import express, { Express, NextFunction, Request, Response } from "express"
-import { getLogger, Logger } from "../Logger"
+import express, { Express } from "express"
 import api from "./api"
+import { logging } from "../middleware"
 
-const logger: Logger = getLogger("app")
 
 const app: Express = express()
 
 // express app routes logging
-app.use((req: Request, res: Response, next: NextFunction ): void => {
-	logger.debug(`${req.method.toUpperCase()} ${req.url}`)
-	next()
-})
+app.use(logging)
+
 
 // adding the app routes to app
 app.use("/api", api)

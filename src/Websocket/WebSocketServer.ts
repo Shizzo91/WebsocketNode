@@ -2,27 +2,54 @@ import { WebSocketServer as WSS, WebSocket } from "ws"
 import { WebSocketHandler } from "./WebSocketHandler"
 import * as internal from "node:stream"
 import { IncomingMessage } from "node:http"
-import Connection from "../Connection/Connection"
-import { Pubilsher, PublishData } from "../Connection/Publish"
+import { Pubilsher, PublishData, Connection } from "../Connection"
 import WebSocketServerHeartbeat from "./WebSocketServerHeartbeat"
 import { getLogger, Logger } from "../Logger"
 
+/**
+ * The WebSocketServer class
+ * @class
+ * @extends {WSS}
+ * @implements {Pubilsher}
+ * @param {WebSocketHandler} webSocketHandler - The websocket handler
+ * @param {Logger} logger - The logger
+ * @param {Set<Connection>} connectedClients - The connected clients
+ * @example
+ * const wss: WebSocketServer = new WebSocketServer(simpleChatHandler, getLogger("WebSocketServer"))
+ */
 export default class WebSocketServer extends WSS implements Pubilsher {
+	/**
+	 * The heartbeat of the websocket server
+	 * @type {WebSocketServerHeartbeat}
+	 * @private
+	 */
 	private heartbeat: WebSocketServerHeartbeat
 
+	/**
+	 * Creates a new WebSocketServer
+	 * @param webSocketHandler
+	 * @param logger
+	 * @param connectedClients
+	 */
 	constructor(
 		public webSocketHandler: WebSocketHandler,
 		private logger: Logger = getLogger("WebSocketServer"),
 		public connectedClients: Set<Connection> = new Set<Connection>(),
 	) {
+		// create a websocket server without a server
 		super({ noServer: true })
 
+		// set the parent of the websocket handler
+		this.webSocketHandler.parent = this
+
+		// create a logger for the heartbeat
 		const heartbeatLogger: Logger = getLogger(`${this.logger.defaultMeta.service}Heartbeat`)
 
 		// set heartbeat and start it
 		this.heartbeat = new WebSocketServerHeartbeat(this, heartbeatLogger)
 		this.heartbeat.start()
 
+		// add the connection event handler
 		this.on("connection", async (webSocket: WebSocket, client: Connection): Promise<void> => {
 			this.connectedClients.add(client)
 			this.webSocketHandler.onConnect(client)
