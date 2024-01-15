@@ -12,6 +12,9 @@ import * as url from "url"
 
 export default class Connection implements PubSubscriber {
 
+	/**
+	 * if the connection is alive
+	 */
 	public isAlive: boolean = true
 	constructor(
 		public readonly request: IncomingMessage,
@@ -23,6 +26,10 @@ export default class Connection implements PubSubscriber {
         private subscibtions: Set<string> = new Set<string>,
 	) {}
 
+	/**
+	 * returns the remote address of the client
+	 * @see https://nodejs.org/api/net.html#net_socket_remoteaddress
+	 */
 	public get remoteAddress(): string {
 		const xForwardedForIp: string | undefined = fristElementOrVariable<string>(this.request.headers["x-forwarded-for"])
 
@@ -41,6 +48,10 @@ export default class Connection implements PubSubscriber {
 		throw new Error("no remoteAddress can be found")
 	}
 
+	/**
+	 * returns the url of the request as a url object
+	 * @see https://nodejs.org/api/url.html#url_class_url
+	 */
 	public get url(): url.UrlWithStringQuery {
 		return url.parse(this.request.url ?? "")
 	}
@@ -97,6 +108,9 @@ export default class Connection implements PubSubscriber {
 		return this.subscibtions.has(topic)
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public toString(): string {
 		return `remoteAddress: ${this.remoteAddress} alive: ${this.createAt.toString()}`
 	}

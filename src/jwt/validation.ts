@@ -2,6 +2,15 @@ import jwt, { JwtPayload } from "jsonwebtoken"
 import { JWT_SECRET } from "../settings"
 import JWTError from "./JWTError"
 import Payload from "./Payload"
+
+/**
+ * Validate a JWT token and return the payload
+ * @param token - The token to validate
+ * @returns {Payload} - The payload of the token
+ * @example
+ * import { validation } from "./jwt"
+ * const payload: Payload = validation("token") // { id: "1234567890" }
+ */
 export default function validation(token?: string): Payload {
 	if (!token) throw new JWTError("No token provided")
 	let decoded: string | JwtPayload | null = null
